@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Taytel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./bratstyle.css">
+</head>
+<body>
+  <button id="mode-toggle">🌙</button>
+  <div class="container">
+    <h1>@io_jiyannn</h1>
+    <div id="brat-output">Gawa ni @io_jiyannn</div>
+    <textarea id="text-input" placeholder="Typeee in what you want!"></textarea>
+  </div>
+
+  <div class="footer-ing">
+    <ul>@io_jiyannn</ul>
+    <ul>A simple clone of the brat generator lol</ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("text-input");
+    const output = document.getElementById("brat-output");
+    const modeToggle = document.getElementById("mode-toggle");
+
+    input.addEventListener("input", (e) => {
+      let text = e.target.value;
+      output.textContent = text || "Gawa ni @io_jiyannn";
+      
+      output.style.fontSize = window.innerWidth <= 500 ? "36px" : "120px";
+      output.style.textAlign = "justify";
+      output.style.textAlignLast = "justify";
+      
+      output.style.height = 'auto';
+      let contentHeight = output.scrollHeight;
+      
+      const maxHeight = window.innerWidth <= 500 ? 300 : 400;
+      output.style.height = `${Math.min(contentHeight, maxHeight)}px`;
+      
+      if (output.scrollHeight > output.clientHeight) {
+        let fontSize = parseInt(output.style.fontSize);
+        while (output.scrollHeight > output.clientHeight && fontSize > 12) {
+          fontSize -= 2;
+          output.style.fontSize = `${fontSize}px`;
+        }
+        if (output.scrollHeight > output.clientHeight * 0.8) {
+          output.style.textAlign = "justify";
+          output.style.textAlignLast = "justify";
+        }
+      }
+    });
+
+    modeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+      modeToggle.textContent = isDark ? "☀️" : "🌙";
+    });
+
+    output.addEventListener("click", () => {
+      navigator.clipboard.writeText(output.textContent);
+      const originalText = output.textContent;
+      output.textContent = "Okiii";
+      setTimeout(() => {
+        output.textContent = originalText;
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
